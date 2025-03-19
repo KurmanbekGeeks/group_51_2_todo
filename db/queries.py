@@ -1,7 +1,7 @@
 CREATE_TABLE_TASKS = """
     CREATE TABLE IF NOT EXISTS tasks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        task TEXT NOT NULL,
+        task TEXT NOT NULL
         )
 """
 

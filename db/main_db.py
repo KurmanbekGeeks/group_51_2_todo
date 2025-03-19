@@ -46,3 +46,5 @@ def delete_task_db(task_id):
     conn.close()
 
     
+
+# pip install flet[all]
