@@ -4,9 +4,8 @@ from db import main_db
 
 def main(page: ft.Page):
     page.title = 'Todo List'
-    page.padding = 40 
-    page.bgcolor = ft.colors.GREY_600
     page.theme_mode = ft.ThemeMode.DARK
+    page.window_maximized = True 
 
     task_list = ft.Column(spacing=10)
 
@@ -32,7 +31,8 @@ def main(page: ft.Page):
         return ft.Row([
             task_field,
             ft.IconButton(ft.icons.EDIT, icon_color=ft.colors.YELLOW_400, on_click=enable_edit),
-            ft.IconButton(ft.icons.SAVE, icon_color=ft.colors.GREEN_400, on_click=save_edit)
+            ft.IconButton(ft.icons.SAVE, icon_color=ft.colors.GREEN_400, on_click=save_edit),
+            ft.IconButton(ft.icons.DELETE, icon_color=ft.colors.RED_400, on_click=lambda e: delete_task(task_id))
         ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
     
     def add_task(e):
@@ -42,15 +42,45 @@ def main(page: ft.Page):
             task_input.value = ""
             page.update()
 
+    def delete_task(task_id):
+        main_db.delete_task_db(task_id)
+        load_tasks()
+
     task_input = ft.TextField(hint_text='Добавьте задачу', expand=True, dense=True, on_submit=add_task)
     add_button = ft.ElevatedButton("Добавить", on_click=add_task, icon=ft.icons.ADD)
 
-    page.add(
-        ft.Column([
+    # page.add(
+    #     ft.Column([
+    #         ft.Row([task_input, add_button], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
+    #         task_list
+    #     ])
+    # )
+
+    content = ft.Container(
+        content = ft.Column([
             ft.Row([task_input, add_button], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             task_list
-        ])
+        ], alignment=ft.MainAxisAlignment.CENTER), 
+        padding=20,
+        alignment=ft.alignment.center
     )
+
+    background_image = ft.Image(
+        src='/Users/kurmanbek/Desktop/Geeks/Groups_flet/group_51-2_to_do_list/image.png',
+        fit=ft.ImageFit.FILL,
+        width=page.width,
+        height=page.height
+    )
+
+    background = ft.Stack([background_image, content])
+
+    def on_resize(e):
+        background_image.width = page.width
+        background_image.height = page.height
+        page.update()
+
+    page.add(background)
+    page.on_resized = on_resize
 
     load_tasks()
 
