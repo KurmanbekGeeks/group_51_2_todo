@@ -2,19 +2,22 @@ CREATE_TABLE_TASKS = """
     CREATE TABLE IF NOT EXISTS tasks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         task TEXT NOT NULL,
-        completed INTEGER DEFAULT 0
+        completed INTEGER DEFAULT 0,
+        deadline DATE
         )
 """
 
-SELECT_TASKS = "SELECT id, task, completed FROM tasks"
+SELECT_TASKS = "SELECT id, task, completed, deadline FROM tasks"
 
-INSERT_TASK = "INSERT INTO tasks (task) VALUES (?)"
+INSERT_TASK = "INSERT INTO tasks (task, deadline) VALUES (?, ?)"
 
 UPDATE_TASK = "UPDATE tasks SET task = ? WHERE id = ?"
+
+UPDATE_DEADLINE = "UPDATE tasks SET deadline = ? WHERE id = ?"
 
 DELETE_TASK = "DELETE FROM tasks WHERE id = ?"
 
 
-SELECT_completed = 'SELECT id, task, completed FROM tasks WHERE completed = 1'
+SELECT_completed = 'SELECT id, task, completed, deadline FROM tasks WHERE completed = 1'
 
-SELECT_incomplete = 'SELECT id, task, completed FROM tasks WHERE completed = 0'
+SELECT_incomplete = 'SELECT id, task, completed, deadline FROM tasks WHERE completed = 0'
