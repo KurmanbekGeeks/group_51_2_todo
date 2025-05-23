@@ -29,7 +29,7 @@ def main(page: ft.Page):
             return ft.colors.YELLOW  # Скоро (3-7 дней)
         else:
             return ft.colors.GREEN  # Достаточно времени (более 7 дней)
-
+ 
     def get_deadline_text(deadline_str):
         if not deadline_str:
             return "Нет срока"
